@@ -1,0 +1,1 @@
+savedcmd_/home/Niko/projects/kernel/NikoModule/greet.ko := ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T scripts/module.lds -o /home/Niko/projects/kernel/NikoModule/greet.ko /home/Niko/projects/kernel/NikoModule/greet.o /home/Niko/projects/kernel/NikoModule/greet.mod.o

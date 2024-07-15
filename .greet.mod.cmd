@@ -1,0 +1,1 @@
+savedcmd_/home/Niko/projects/kernel/NikoModule/greet.mod := printf '%s\n'   greet.o | awk '!x[$$0]++ { print("/home/Niko/projects/kernel/NikoModule/"$$0) }' > /home/Niko/projects/kernel/NikoModule/greet.mod
