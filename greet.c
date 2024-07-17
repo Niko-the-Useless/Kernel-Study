@@ -1,4 +1,7 @@
+#include "linux/printk.h"
+#include <linux/fs.h>
 #include <linux/init.h>
+#include <linux/kdev_t.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/moduleparam.h>
@@ -6,6 +9,7 @@
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Niko the Useless");
 
+dev_t myDeviceNum = 0; // this variable holds both device numbers
 int value, newValue = 42;
 char *name;
 
@@ -19,10 +23,20 @@ loader(void) { // this will execute on loading module __init makes compiler mark
   pr_info("old value =%d\n", value);
   pr_info("new value =%d\n", newValue);
   pr_info("name = %s\n", name);
+  // alocating number - identifies the driver and device
+  if ((alloc_chrdev_region(&myDeviceNum, 0, 1, "very good device name")) < 0) {
+    pr_info("Cannot allocate major number for device :c\n");
+    return -1;
+  }
+  pr_info("Major =%d Minor =%d \n", MAJOR(myDeviceNum), MINOR(myDeviceNum));
+  pr_info("Module inserted succesfully ^-^\n");
   return 0;
 }
 
-static void __exit exiter(void) { pr_info("bailing out o7\n"); } // this on exit
+static void __exit exiter(void) {
+  unregister_chrdev_region(myDeviceNum, 1); // unregistering device numbers
+  pr_info("bailing out o7\n");
+} // this on exit
 
 module_init(loader); // this will be called during initialization
 module_exit(exiter); // this during exit

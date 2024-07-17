@@ -1,1 +1,1 @@
-savedcmd_/home/Niko/projects/kernel/NikoModule/Module.symvers :=  scripts/mod/modpost -M  -a    -N  -o /home/Niko/projects/kernel/NikoModule/Module.symvers -n -T /home/Niko/projects/kernel/NikoModule/modules.order -i Module.symvers -e 
+savedcmd_/home/Niko/projects/kernel/kernelStudy/Module.symvers :=  scripts/mod/modpost -M  -a    -N  -o /home/Niko/projects/kernel/kernelStudy/Module.symvers -n -T /home/Niko/projects/kernel/kernelStudy/modules.order -i Module.symvers -e 

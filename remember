@@ -1,0 +1,2 @@
+sudo sh -c echo 13 > newValue
+sudo insmod greet.ko value=12 name=Reggie
