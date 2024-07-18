@@ -1,1 +1,1 @@
-/home/Niko/projects/kernel/kernelStudy/greet.o
+/home/Niko/projects/kernel/kernelStudy/paramsNumsFiles/greet.o

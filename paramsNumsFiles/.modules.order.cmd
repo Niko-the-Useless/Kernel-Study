@@ -1,0 +1,1 @@
+savedcmd_/home/Niko/projects/kernel/kernelStudy/paramsNumsFiles/modules.order := {   echo /home/Niko/projects/kernel/kernelStudy/paramsNumsFiles/greet.o; :; } > /home/Niko/projects/kernel/kernelStudy/paramsNumsFiles/modules.order
