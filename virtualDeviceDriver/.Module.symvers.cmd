@@ -1,0 +1,1 @@
+savedcmd_/home/Niko/projects/kernel/virtDriver/Module.symvers :=  scripts/mod/modpost -M  -a    -N  -o /home/Niko/projects/kernel/virtDriver/Module.symvers -n -T /home/Niko/projects/kernel/virtDriver/modules.order -i Module.symvers -e 
