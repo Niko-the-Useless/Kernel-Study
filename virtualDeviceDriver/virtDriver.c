@@ -1,5 +1,6 @@
 #include "linux/device/class.h"
 #include "linux/gfp_types.h"
+#include "linux/printk.h"
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/module.h>
@@ -10,13 +11,17 @@
 #include <linux/slab.h>
 #include <linux/uaccess.h>
 #include <linux/err.h>
+#include <linux/ioctl.h>
 
-#define mem_size 1020
+#define readValueIOCTL _IOW('a',0,int32_t*) // defining ioctl command that copies parameters from user with idettifiesr 'a'a and command number 'b'
+#define writeValueIOCTL _IOR('a',1,int32_t*) // and data type 32 bit int
+#define mem_size 1020 // defining memory used to send data between kernel and userspace
 
 dev_t virtDeviceNum =0;
 static struct class *dev_class;
 static struct cdev virtCharDevice;
 uint8_t *kernel_buffer;
+int32_t ioctlValue =0;
 
 static int __init loader(void);
 static void __exit exiter(void);
@@ -24,8 +29,10 @@ static int cDevOpen(struct inode *inode, struct file *file);
 static int cDevClose(struct inode *inode, struct file *file);
 static ssize_t cDevRead(struct file *file, char __user *buf, size_t len, loff_t *off);
 static ssize_t cDevWrite(struct file *file, const char *buf, size_t len, loff_t *off);
+static long virtDeviceIOCTL(struct file *file, unsigned int cmd, unsigned long argument);
 void classErr(void);
 void deviceErr(void);
+
 
 static struct file_operations fops = {
 	.owner = THIS_MODULE,
@@ -33,6 +40,7 @@ static struct file_operations fops = {
 	.write = cDevWrite,
 	.open = cDevOpen,
 	.release = cDevClose,
+	.unlocked_ioctl = virtDeviceIOCTL,
 };
 
 void classErr(void){
@@ -42,13 +50,13 @@ void deviceErr(void){
 	class_destroy(dev_class);
 }
 
-static int cDevOpen(struct inode *inode, struct file *file){
+static int cDevOpen(struct inode *inode, struct file *filp){
 	pr_info("Device file opened\n");
 	return 0;
 }
 
 
-static int cDevClose(struct inode *inode, struct file *file){
+static int cDevClose(struct inode *inode, struct file *filp){
 	pr_info("Device file closed\n");
 	return 0;
 }
@@ -67,6 +75,26 @@ static ssize_t cDevWrite(struct file *file, const char *buf, size_t len, loff_t 
 	}
 	pr_info("Data write successfull\n");
 	return len;
+}
+
+static long virtDeviceIOCTL(struct file *file, unsigned int cmd, unsigned long argument){
+	switch(cmd) {
+		case writeValueIOCTL:
+			if(copy_from_user(&ioctlValue,(int32_t*) argument, sizeof(ioctlValue))){
+				pr_err("Data write error\n");
+			}
+			pr_info("ioctlValue =%d\n",ioctlValue);
+			break;
+		case readValueIOCTL:
+			if(copy_to_user((int32_t*) argument, &ioctlValue, sizeof(ioctlValue))){
+				pr_err("Data read error\n");
+			}
+			pr_info("readValueIOCTL called\n");
+			break;
+		default:
+			pr_info("No\n");
+	}
+	return 0;
 }
 
 static int __init loader(void){
@@ -119,6 +147,7 @@ static void __exit exiter(void){
 	unregister_chrdev_region(virtDeviceNum, 1);
 	pr_info("Virtual device driver bailing out o7\n");
 }
+
 
 module_init(loader);
 module_exit(exiter);

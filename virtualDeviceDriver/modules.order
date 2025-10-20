@@ -1,1 +1,1 @@
-/home/Niko/projects/kernel/virtDriver/virtDriver.o
+/home/Niko/projects/kernel/kernelStudy/virtualDeviceDriver/virtDriver.o

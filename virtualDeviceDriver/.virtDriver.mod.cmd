@@ -1,1 +1,1 @@
-savedcmd_/home/Niko/projects/kernel/virtDriver/virtDriver.mod := printf '%s\n'   virtDriver.o | awk '!x[$$0]++ { print("/home/Niko/projects/kernel/virtDriver/"$$0) }' > /home/Niko/projects/kernel/virtDriver/virtDriver.mod
+savedcmd_/home/Niko/projects/kernel/kernelStudy/virtualDeviceDriver/virtDriver.mod := printf '%s\n'   virtDriver.o | awk '!x[$$0]++ { print("/home/Niko/projects/kernel/kernelStudy/virtualDeviceDriver/"$$0) }' > /home/Niko/projects/kernel/kernelStudy/virtualDeviceDriver/virtDriver.mod
